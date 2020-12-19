@@ -49,10 +49,12 @@ if (isset($_POST['submit']))
         $error['review'] =  'Review cannot be empty <br>';
     }
 // insert data to db
-$sql = "INSERT INTO userartists(artist, album, year, rating, review) VALUES
-('$artist', '$album', '$year', '$rating', '$review')";
+$sql = $connect -> prepare("INSERT INTO userartists(artist, album, year, rating, review) VALUES
+('$artist', '$album', '$year', '$rating', '$review')");
+    $sql -> execute();
 
-if (!mysqli_query($connect, $sql))
+
+  /*  if (!mysqli_query($connect, $sql))
 {
     echo "Failed " . mysqli_error($connect);
 } else{
@@ -62,8 +64,12 @@ echo '</script>';
 }
 
 
+
 mysqli_close($connect);
+    */
+
 }
+
 
 ?>
 

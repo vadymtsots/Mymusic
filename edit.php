@@ -7,14 +7,14 @@ include 'db_connect.php';
 if (isset($_GET["id"]))
 {
 
-$id = mysqli_real_escape_string($connect, $_GET["id"]);
+$id = $_GET["id"];
 //selecting the record with specified id
 
-$sql = "SELECT * FROM userartists WHERE id = $id";
+$sql = $connect -> prepare("SELECT * FROM userartists WHERE id = $id");
+$sql -> execute();
+$artists = $sql -> fetch();
 
-$result = mysqli_query($connect, $sql);
 
-$artists = mysqli_fetch_assoc($result);
 
 
 
@@ -28,28 +28,32 @@ $artists = mysqli_fetch_assoc($result);
 
 // edit the record
 
-$artist = $_POST['artist'];
-$album = $_POST['album'];
-$year = $_POST['year'];
-$rating = $_POST['rating'];
-$review = $_POST['review'];
+$artist = $_POST["artist"];
+$album = $_POST["album"];
+$year = $_POST["year"];
+$rating = $_POST["rating"];
+$review = $_POST["review"];
+
+
 
 if (isset($_POST['submit']))
 {
 
-    $edit_sql = "UPDATE userartists SET artist = '$artist', album = '$album', year = '$year', rating = '$rating', review = '$review'
-WHERE id = '$id'";
+    $edit_sql = $connect -> prepare("UPDATE userartists SET artist =?, album =?, year =?, rating =?, review =?
+WHERE id =?");
+    $edit_sql -> execute([$artist, $album, $year, $rating, $review, $id]);
 
-    if (!mysqli_query($connect, $edit_sql)) {
+    /* if (!mysqli_query($connect, $edit_sql)) {
         echo "Failed " . mysqli_error($connect);
     } else {
         echo '<script language="javascript">';
-        echo 'alert("Data edited successfully!")';
+        echo 'alert("Data has been edited successfully!")';
         echo '</script>';
     }
 
 
     mysqli_close($connect);
+    */
 
 }
 
@@ -105,7 +109,7 @@ WHERE id = '$id'";
 <textarea name="review" id="review" cols="30" rows="10"> <?php  echo $artists["review"] ?> </textarea>
 <div class="red-text"> <?php echo $error['review']  ?> </div>
 
-<input type="submit" id="submit" name="submit" class="submit">
+    <input class="submit" id="submit" name="submit" type="submit">
     
 
 

@@ -7,20 +7,19 @@ include 'db_connect.php';
 if (isset($_GET["id"]))
 {
 
-$id = mysqli_real_escape_string($connect, $_GET["id"]);
+$id = $_GET["id"];
 
 //selecting the record with specified id
 
-$sql = "SELECT * FROM userartists WHERE id = $id";
-
-$result = mysqli_query($connect, $sql);
-
-$artists = mysqli_fetch_assoc($result);
+$sql = $connect -> prepare("SELECT * FROM userartists WHERE id = $id");
+$sql -> execute();
+$artists = $sql -> fetch();
 
 
 
-mysqli_free_result($result);
-mysqli_close($connect);
+
+
+
 
 
 
