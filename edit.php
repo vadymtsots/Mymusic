@@ -80,10 +80,12 @@ $artists = $sql -> fetch();
 
     <input type="hidden" name="id" id="id" value="<?php echo $artists["id"] ?>">
 
-    <button class="submit" id="submit" name="submit">Submit</button>
+    <input type="submit" class="submit" id="submit" name="submit">
 
 </form>
     <?php
+
+    include 'db_connect.php';
     // edit the record
 
     $artist = $_POST['artist'];
@@ -91,6 +93,7 @@ $artists = $sql -> fetch();
     $year = $_POST['year'];
     $rating = $_POST['rating'];
     $review = $_POST['review'];
+    $idr = $_POST['id'];
 
     $data = [
         'artist' => $artist,
@@ -98,11 +101,11 @@ $artists = $sql -> fetch();
         'year' => $year,
         'rating' => $rating,
         'review' => $review,
-        'id' => $id
+        'id' => $idr
     ];
 
-    if (isset($_POST['submit']))
-    {
+
+
         $edit_sql = $connect -> prepare("UPDATE userartists SET artist =:artist, album =:album, year =:year, rating =:rating, review =:review
 WHERE userartists.id =:id");
         $edit_sql -> execute($data);
@@ -119,7 +122,7 @@ WHERE userartists.id =:id");
         mysqli_close($connect);
         */
 
-    }
+
 
     ?>
     
