@@ -78,11 +78,50 @@ $artists = $sql -> fetch();
 <textarea name="review" id="review" cols="30" rows="10"> <?php  echo $artists["review"] ?> </textarea>
 <div class="red-text"> <?php echo $error['review']  ?> </div>
 
-    <input type="hidden" value="<?php echo $artists["id"] ?>">
+    <input type="hidden" name="id" id="id" value="<?php echo $artists["id"] ?>">
 
     <button class="submit" id="submit" name="submit">Submit</button>
 
 </form>
+    <?php
+    // edit the record
+
+    $artist = $_POST['artist'];
+    $album = $_POST['album'];
+    $year = $_POST['year'];
+    $rating = $_POST['rating'];
+    $review = $_POST['review'];
+
+    $data = [
+        'artist' => $artist,
+        'album' => $album,
+        'year' => $year,
+        'rating' => $rating,
+        'review' => $review,
+        'id' => $id
+    ];
+
+    if (isset($_POST['submit']))
+    {
+        $edit_sql = $connect -> prepare("UPDATE userartists SET artist =:artist, album =:album, year =:year, rating =:rating, review =:review
+WHERE userartists.id =:id");
+        $edit_sql -> execute($data);
+
+        /* if (!mysqli_query($connect, $edit_sql)) {
+            echo "Failed " . mysqli_error($connect);
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("Data has been edited successfully!")';
+            echo '</script>';
+        }
+
+
+        mysqli_close($connect);
+        */
+
+    }
+
+    ?>
     
 
 
@@ -96,45 +135,7 @@ $artists = $sql -> fetch();
   <?php } ?>
 
 
-  <?php
-// edit the record
 
-$artist = $_POST['artist'];
-$album = $_POST['album'];
-$year = $_POST['year'];
-$rating = $_POST['rating'];
-$review = $_POST['review'];
-
-$data = [
-    'artist' => $artist,
-    'album' => $album,
-    'year' => $year,
-    'rating' => $rating,
-    'review' => $review,
-    'id' => $id
-];
-
-if (isset($_POST['submit']))
-{
-    $edit_sql = $connect -> prepare("UPDATE userartists SET artist =:artist, album =:album, year =:year, rating =:rating, review =:review
-WHERE userartists.id =:id;");
-    $edit_sql -> execute($data);
-
-    /* if (!mysqli_query($connect, $edit_sql)) {
-        echo "Failed " . mysqli_error($connect);
-    } else {
-        echo '<script language="javascript">';
-        echo 'alert("Data has been edited successfully!")';
-        echo '</script>';
-    }
-
-
-    mysqli_close($connect);
-    */
-
-}
-
-?>
 
   -->
 
