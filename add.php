@@ -41,7 +41,7 @@ if (isset($_POST['submit']))
         $error['rating'] =  'Rating cannot be empty <br>';
     } else
     {
-        $error['rating'] = 'Must be a vaild rating <br>'; 
+        $error['rating'] = 'Must be a valid rating <br>';
     }
     
     if (empty($review))

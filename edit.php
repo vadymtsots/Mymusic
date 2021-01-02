@@ -4,8 +4,7 @@ include 'db_connect.php';
 
 //getting an id of the record
 
-if (isset($_GET["id"]))
-{
+
 
 $id = $_GET["id"];
 //selecting the record with specified id
@@ -14,50 +13,20 @@ $sql = $connect -> prepare("SELECT * FROM userartists WHERE id = $id");
 $sql -> execute();
 $artists = $sql -> fetch();
 
-
-
-
-
-
-
-
-
-
-}
-
-
-// edit the record
-
-$artist = $_POST["artist"];
-$album = $_POST["album"];
-$year = $_POST["year"];
-$rating = $_POST["rating"];
-$review = $_POST["review"];
-
-
-
-if (isset($_POST['submit']))
-{
-
-    $edit_sql = $connect -> prepare("UPDATE userartists SET artist =?, album =?, year =?, rating =?, review =?
-WHERE id =?");
-    $edit_sql -> execute([$artist, $album, $year, $rating, $review, $id]);
-
-    /* if (!mysqli_query($connect, $edit_sql)) {
-        echo "Failed " . mysqli_error($connect);
-    } else {
-        echo '<script language="javascript">';
-        echo 'alert("Data has been edited successfully!")';
-        echo '</script>';
-    }
-
-
-    mysqli_close($connect);
-    */
-
-}
-
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -109,7 +78,11 @@ WHERE id =?");
 <textarea name="review" id="review" cols="30" rows="10"> <?php  echo $artists["review"] ?> </textarea>
 <div class="red-text"> <?php echo $error['review']  ?> </div>
 
-    <input class="submit" id="submit" name="submit" type="submit">
+    <input type="hidden" value="<?php echo $artists["id"] ?>">
+
+    <button class="submit" id="submit" name="submit">Submit</button>
+
+</form>
     
 
 
@@ -121,6 +94,47 @@ WHERE id =?");
     
     
   <?php } ?>
+
+
+  <?php
+// edit the record
+
+$artist = $_POST['artist'];
+$album = $_POST['album'];
+$year = $_POST['year'];
+$rating = $_POST['rating'];
+$review = $_POST['review'];
+
+$data = [
+    'artist' => $artist,
+    'album' => $album,
+    'year' => $year,
+    'rating' => $rating,
+    'review' => $review,
+    'id' => $id
+];
+
+if (isset($_POST['submit']))
+{
+    $edit_sql = $connect -> prepare("UPDATE userartists SET artist =:artist, album =:album, year =:year, rating =:rating, review =:review
+WHERE userartists.id =:id;");
+    $edit_sql -> execute($data);
+
+    /* if (!mysqli_query($connect, $edit_sql)) {
+        echo "Failed " . mysqli_error($connect);
+    } else {
+        echo '<script language="javascript">';
+        echo 'alert("Data has been edited successfully!")';
+        echo '</script>';
+    }
+
+
+    mysqli_close($connect);
+    */
+
+}
+
+?>
 
   -->
 
