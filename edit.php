@@ -51,7 +51,7 @@ $artists = $sql -> fetch();
 <!-- output the record -->
 
 <section class="form">
-<form action="edit.php" method="post">
+<form method="post">
 
 
 <label for="artist">Artist</label>

@@ -32,7 +32,7 @@ if (isset($_POST['submit']))
     {
       if (!is_numeric($year))
       {
-          $error['year'] = 'Must be a vaild year <br>';
+          $error['year'] = 'Must be a validEd year <br>';
       }
     }
     
@@ -41,8 +41,13 @@ if (isset($_POST['submit']))
         $error['rating'] =  'Rating cannot be empty <br>';
     } else
     {
+        if (!is_numeric($rating))
+        {
         $error['rating'] = 'Must be a valid rating <br>';
+        }
     }
+
+
     
     if (empty($review))
     {
