@@ -8,11 +8,10 @@ $login = $_POST['email'];
 $password = $_POST['pass'];
 $pass_confirm = $_POST['pass_confirm'];
 
-
-
-
+// Здесь у тебя скобка в той же строке
 if (isset($_POST['submit'])) {
 
+    // А здесь уже нет. Должно быть как выше
     if (empty($login))
     {
         $error['login'] =  'Email cannot be empty';
@@ -62,7 +61,7 @@ WHERE user_email = '$login'");
 
 }
 
-
+// Зачем такой пробел внизу?
 ?>
 
 

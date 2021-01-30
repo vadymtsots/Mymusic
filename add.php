@@ -4,11 +4,11 @@ include 'db_connect.php';
 $error = ['artist' => '', 'album' => '', 'year' => '', 'rating' => '', 'review' => ''];
 
 
-$artist = $_POST['artist'];
-$album = $_POST['album'];
-$year = $_POST['year'];
-$rating = $_POST['rating'];
-$review = $_POST['review'];
+$artist = @$_POST['artist'];
+$album = @$_POST['album'];
+$year = @$_POST['year'];
+$rating = @$_POST['rating'];
+$review = @$_POST['review'];
 
 //form validation
 
