@@ -1,141 +1,104 @@
 <?php
 include 'db_connect.php';
 
-$error = ['artist' => '', 'album' => '', 'year' => '', 'rating' => '', 'review' => ''];
+$error = [
+    'artist' => '',
+    'album' => '',
+    'year' => '',
+    'rating' => '',
+    'review' => ''
+];
 
+$req = $_REQUEST;
 
-$artist = @$_POST['artist'];
-$album = @$_POST['album'];
-$year = @$_POST['year'];
-$rating = @$_POST['rating'];
-$review = @$_POST['review'];
-
-//form validation
-
-
-if (isset($_POST['submit']))
+function isValidated($error)
 {
-    if (empty($artist))
-    {
-        $error['artist'] =  'Artist cannot be empty <br>';
-    }
-    
-    if (empty($album))
-    {
-        $error['album'] =  'Album cannot be empty <br>';
-    }
-    
-    if (empty($year))
-    {
-        $error['year'] =  'Year cannot be empty <br>';
-    } else 
-    {
-      if (!is_numeric($year))
-      {
-          $error['year'] = 'Must be a validEd year <br>';
-      }
-    }
-    
-    if (empty($rating))
-    {
-        $error['rating'] =  'Rating cannot be empty <br>';
-    } else
-    {
-        if (!is_numeric($rating))
-        {
-        $error['rating'] = 'Must be a valid rating <br>';
+    foreach ($error as $name => $value) {
+        if (!empty($value)) {
+            return false;
         }
     }
 
-
-    
-    if (empty($review))
-    {
-        $error['review'] =  'Review cannot be empty <br>';
-    }
-// insert data to db
-$sql = $connect -> prepare("INSERT INTO userartists(artist, album, year, rating, review) VALUES
-('$artist', '$album', '$year', '$rating', '$review')");
-    $sql -> execute();
-
-
-  /*  if (!mysqli_query($connect, $sql))
-{
-    echo "Failed " . mysqli_error($connect);
-} else{
-    echo '<script >';
-echo 'alert("Data inserted successfully!")';
-echo '</script>';
+    return true;
 }
 
+//form validation
 
+if (isset($req['submit'])) {
+    $error['artist'] = empty($req['artist']) ? 'Artist cannot be empty <br>' : '';
+    $error['album'] = empty($req['album']) ? 'Album cannot be empty <br>' : '';
+    $error['review'] = empty($req['review']) ? 'Review cannot be empty <br>' : '';
 
-mysqli_close($connect);
-    */
+    $error['year'] = empty($req['year']) ? 'Year cannot be empty <br>' :
+        (!is_numeric($req['year']) ? 'Must be a validEd year <br>' : '');
 
+    $error['rating'] = empty($req['rating']) ? 'Rating cannot be empty <br>' :
+        (!is_numeric($req['rating']) ? 'Must be a valid rating <br>' : '');
+
+    if (isValidated($error)) {
+        // insert data to db
+        $sql = "INSERT INTO userartists(artist, album, `year`, rating, review) VALUES (?, ?, ?, ?, ?)";
+        $st = $connect->prepare($sql);
+        $st->execute([
+            $req['artist'],
+            $req['album'],
+            $req['year'],
+            $req['rating'],
+            $req['review'],
+        ]);
+    }
 }
 
 
 ?>
 
-
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<title>Add new music</title>
-</head>
+<html lang="en">
+<?php
+    $page_title = 'Add new music';
+    include 'templates/head.php'
+?>
 
 <body>
-    
+    <header class="header center">
+        <?php include 'templates/header.php'; ?>
+    </header>
 
+    <!-- input form -->
 
-<header class="header center"> 
-<?php include 'templates/header.php'; ?>
-</header>
+    <section class="form">
+        <form action="add.php" method="post">
+            <label for="artist">Artist</label>
+            <input type="text" id="artist" name="artist"> <br>
+            <div class="red-text"> <?php echo $error['artist']  ?> </div>
 
+            <label for="album">Album</label>
+            <input type="text" id="album" name="album"> <br>
+            <div class="red-text"> <?php echo $error['album']  ?> </div>
 
-<!-- input form -->
+            <label for="year">Year</label>
+            <input type="text" id="year" name="year"> <br>
+            <div class="red-text"> <?php echo $error['year']  ?> </div>
 
-<section class="form">
-<form action="add.php" method="post">
+            <label for="rating">Rating</label>
+            <input type="text" id="rating" name="rating"> <br>
+            <div class="red-text"> <?php echo $error['rating']  ?> </div>
 
+            <label for="review">Review</label>
+            <textarea name="review" id="review" cols="30" rows="10"></textarea>
+            <div class="red-text"> <?php echo $error['review']  ?> </div>
 
-<label for="artist">Artist</label>
-<input type="text" id="artist" name="artist"> <br>
-<div class="red-text"> <?php echo $error['artist']  ?> </div>
+            <input type="submit" id="submit" name="submit" class="submit">
+        </form>
+    </section>
 
-<label for="album">Album</label>
-<input type="text" id="album" name="album"> <br>
-<div class="red-text"> <?php echo $error['album']  ?> </div>
+    <footer>
+        <?php include 'templates/footer.php'; ?>
+    </footer>
 
-
-<label for="year">Year</label>
-<input type="text" id="year" name="year"> <br>
-<div class="red-text"> <?php echo $error['year']  ?> </div>
-
-<label for="rating">Rating</label>
-<input type="text" id="rating" name="rating"> <br>
-<div class="red-text"> <?php echo $error['rating']  ?> </div>
-
-
-<label for="review">Review</label>
-<textarea name="review" id="review" cols="30" rows="10"></textarea>
-<div class="red-text"> <?php echo $error['review']  ?> </div>
-
-<input type="submit" id="submit" name="submit" class="submit">
-
-
-
-</form>
-</section>
-
-
-<footer>
-<?php include 'templates/footer.php'; ?>
-</footer>
-
-
+    <?php if (isset($req['submit']) && isValidated($error)): ?>
+        <script>
+            alert('Success');
+        </script>
+    <?php endif ?>
 </body>
-
-
-
-
+</html>

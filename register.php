@@ -14,21 +14,17 @@ $error = ['username' => '', 'email' => '', 'password' => ''];
 
 if(isset($_POST['submit'])) {
 
-    if (empty($username))
-    {
+    if (empty($username)) {
         $error['username'] =  'Username cannot be empty <br>';
     }
 
-    if (empty($email))
-    {
+    if (empty($email)) {
         $error['email'] =  'Email cannot be empty <br>';
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         //$error['email'] = 'Must be a valid email';
     }
 
-    if (empty($password))
-    {
+    if (empty($password)) {
         $error['password'] = 'Password cannot be empty';
     }
 
@@ -45,8 +41,6 @@ if(isset($_POST['submit'])) {
 header("Location: index.php");
 
 }
-
-
 
 ?>
 
@@ -85,49 +79,35 @@ header("Location: index.php");
     <title>Registration</title>
 </head>
 <body>
-<header class="header center ndigo darken-2">
-    <?php include 'templates/header.php'; ?>
-</header>
+    <header class="header center ndigo darken-2">
+        <?php include 'templates/header.php'; ?>
+    </header>
 
-<div class="row center">
+    <div class="row center">
+        <form class="col s12"  method="post">
+            <div class="input-field">
+                <input type="email" id="email" name="email" placeholder="Email">
+                <div class="red-text"><?php echo $error['email'] ?> </div>
+            </div>
 
+            <div class="input-field">
+                <input type="text" id="username" name="username" placeholder="Username">
+                <div class="red-text"><?php echo $error['username'] ?> </div>
+            </div>
 
-    <form class="col s12"  method="post">
+            <div class="input-field">
+                <input type="password" id="pass" name="pass" placeholder="Password">
+                <div class="red-text"><?php echo $error['password'] ?> </div>
+            </div>
 
-<div class="input-field">
+            <button type="submit" id="submit" name="submit">Register</button>
+        </form>
 
-    <input type="email" id="email" name="email" placeholder="Email">
-    <div class="red-text"><?php echo $error['email'] ?> </div>
-</div>
+        <p>Already have an account? <a href="auth.php">Enter</a></p>
+    </div>
 
-<div class="input-field">
-
-    <input type="text" id="username" name="username" placeholder="Username">
-    <div class="red-text"><?php echo $error['username'] ?> </div>
-</div>
-
-<div class="input-field">
-
-    <input type="password" id="pass" name="pass" placeholder="Password">
-    <div class="red-text"><?php echo $error['password'] ?> </div>
-</div>
-
-<button type="submit" id="submit" name="submit">Register</button>
-
-
-    </form>
-
-<p>Already have an account? <a href="auth.php">Enter</a></p>
-
-
-</div>
-
-<footer>
-    <?php include "templates/footer.php" ?>
-</footer>
-
-
-
-
+    <footer>
+        <?php include "templates/footer.php" ?>
+    </footer>
 </body>
 </html>
