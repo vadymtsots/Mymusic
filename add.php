@@ -1,4 +1,4 @@
-<?php
+v<?php
 include 'db_connect.php';
 
 $error = [
@@ -30,7 +30,7 @@ if (isset($req['submit'])) {
     $error['review'] = empty($req['review']) ? 'Review cannot be empty <br>' : '';
 
     $error['year'] = empty($req['year']) ? 'Year cannot be empty <br>' :
-        (!is_numeric($req['year']) ? 'Must be a validEd year <br>' : '');
+        (!is_numeric($req['year']) ? 'Must be a valid year <br>' : '');
 
     $error['rating'] = empty($req['rating']) ? 'Rating cannot be empty <br>' :
         (!is_numeric($req['rating']) ? 'Must be a valid rating <br>' : '');

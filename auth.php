@@ -2,32 +2,31 @@
 
 include 'db_connect.php';
 
-$error = ['login' => '', 'pass' => '', 'incorrect_login' => '', 'incorrect_pass' => ''];
+$error = ['email' => '',
+    'pass' => '',
+    'incorrect_login' => '',
+    ];
 
-$login = $_POST['email'];
+/* $login = $_POST['email'];
 $password = $_POST['pass'];
+*/
 
-if (isset($_POST['submit'])) {
+$req = $_REQUEST;
 
-    if (empty($login)) {
-        $error['login'] =  'Email cannot be empty';
-    }
 
-    if (!filter_var($login, FILTER_VALIDATE_EMAIL)) {
-        $error['login'] = 'Must be a valid email';
-    }
 
-    if (empty($password)) {
-        $error['pass'] = 'Password cannot be empty';
-    }
+if (isset($req['submit'])) {
+    $error['email'] = empty($req['email']) ? 'Email cannot be empty <br>' : '';
+    $error['pass'] = empty($req['pass']) ? 'Password cannot be empty <br>' : '';
 
 //login confirmation
-    $sql = $connect->prepare("SELECT * FROM users WHERE user_email = '$login'");
-    $sql->execute();
+    $sql = "SELECT * FROM users WHERE user_email = ?";
+    $stmt = $connect -> prepare($sql);
+    $stmt->execute($req['email']);
 
-    $user_info = $sql -> fetch();
+    $user_info = $stmt -> fetch();
 
-    if ($login === $user_info['user_email'] && password_verify($password, $user_info['user_password'])) {
+    if ($req['email'] === $user_info['user_email'] && password_verify($req['pass'], $user_info['user_password'])) {
         header("Location: index.php");
     } else {
         $error['incorrect_login'] = 'Incorrect login or password';
@@ -69,14 +68,14 @@ if (isset($_POST['submit'])) {
         <form class="col s12" action="" method="post">
             <div class="input-field">
             <input type="text" id="email" name="email" placeholder="Email"> <br>
-                <div class="red-text"><?= $error['login'] ?></div>
+                <div class="red-text"><?= $error['email'] ?></div>
                 <div class="red-text"><?= $error['incorrect_login'] ?></div>
             </div>
 
             <div class="input-field">
             <input type="password" id="pass" name="pass" placeholder="Password">
                 <div class="red-text"><?= $error['pass'] ?></div>
-                <div class="red-text"><?= $error['incorrect_pass'] ?></div>
+                <div class="red-text"><?= $error['incorrect_login'] ?></div>
             </div>
 
             <button type="submit" id="submit" name="submit">Enter</button>
