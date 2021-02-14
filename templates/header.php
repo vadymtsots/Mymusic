@@ -1,5 +1,5 @@
 <nav>
-    <div class="nav-wrapper #1976d2 blue darken-2">
+    <div class="nav-wrapper #1976d2 blue darken-2 center">
         <a href="index.php" class="brand-logo">MyMusic</a>
 
         <ul id="nav-mobile" class="right hide-on-med-and-down">

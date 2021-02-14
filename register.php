@@ -43,7 +43,7 @@ if(isset($req['submit'])) {
         $stmt-> execute([
                 $req['email'],
                 $req['username'],
-                pass_hashing($password)
+                pass_hashing($password),
     ]);
 }
 
@@ -55,7 +55,7 @@ header("Location: index.php");
 
 
 
-<!doctype html>
+
 <html lang="en">
 <?php
 $page_title = 'Register';
@@ -67,7 +67,7 @@ include 'templates/head.php'
     </header>
 
     <div class="row center">
-        <form class="col s12" action="register.php" method="post">
+        <form class="col s12" method="post">
             <div class="input-field">
                 <input type="email" id="email" name="email" placeholder="Email">
                 <div class="red-text"><?php echo $error['email'] ?> </div>
@@ -83,7 +83,7 @@ include 'templates/head.php'
                 <div class="red-text"><?php echo $error['password'] ?> </div>
             </div>
 
-            <button type="submit" id="submit" name="submit">Register</button>
+            <input type="submit" id="submit" name="submit">
         </form>
 
         <p>Already have an account? <a href="auth.php">Enter</a></p>
