@@ -5,7 +5,7 @@ $error = [
     'username' => '',
     'email' => '',
     'password' => '',
-    'confirm_password'
+    'confirm_password' => '',
 ];
 
 $req = $_REQUEST;
@@ -81,6 +81,11 @@ include 'templates/head.php'
             <div class="input-field">
                 <input type="password" id="pass" name="pass" placeholder="Password">
                 <div class="red-text"><?php echo $error['password'] ?> </div>
+            </div>
+
+            <div class="input-field">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+                <div class="red-text"><?php echo $error['confirm_password'] ?> </div>
             </div>
 
             <input type="submit" id="submit" name="submit">
