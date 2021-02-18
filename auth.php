@@ -2,18 +2,17 @@
 
 include 'db_connect.php';
 
-$error = ['email' => '',
+$error = [
+    'email' => '',
     'pass' => '',
     'incorrect_login' => '',
-    ];
+];
 
 /* $login = $_POST['email'];
 $password = $_POST['pass'];
 */
 
 $req = $_REQUEST;
-
-
 
 if (isset($req['submit'])) {
     $error['email'] = empty($req['email']) ? 'Email cannot be empty <br>' : '';
@@ -22,7 +21,7 @@ if (isset($req['submit'])) {
 //login confirmation
     $sql = "SELECT * FROM users WHERE user_email = ?";
     $stmt = $connect -> prepare($sql);
-    $stmt->execute($req['email']);
+    $stmt->execute([$req['email']]);
 
     $user_info = $stmt -> fetch();
 
