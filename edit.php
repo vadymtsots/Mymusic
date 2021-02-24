@@ -29,7 +29,7 @@ WHERE userartists.id = ?";
         $req['review'],
         $req['id'],
     ]);
-
+header('Location: review.php');
 }
 
 

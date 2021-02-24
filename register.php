@@ -35,6 +35,10 @@ if(isset($req['submit'])) {
     $error['email'] = empty($req['email']) ? 'Email cannot be empty <br>' :
         (!filter_var($req['email'], FILTER_VALIDATE_EMAIL) ? 'Must be valid email <br>' : '');
 
+    if (!$req['pass'] === $req['confirm_pass']) {
+        $error ['confirm_password'] = 'Passwords do not match';
+    }
+
 
 // insert data into database
     if (isValidated($error)) {
@@ -85,7 +89,7 @@ include 'templates/head.php'
 
             <div class="input-field">
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
-                <div class="red-text"><?php echo $error['confirm_password'] ?> </div>
+                <div class="red-text"><?php echo $error['confirm_pass'] ?> </div>
             </div>
 
             <input type="submit" id="submit" name="submit">
