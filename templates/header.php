@@ -1,3 +1,12 @@
+<?php
+session_start();
+$username = $_SESSION['user_name'];
+
+
+
+?>
+
+
 <nav>
     <div class="nav-wrapper #1976d2 blue darken-2 center">
         <a href="index.php" class="brand-logo">MyMusic</a>
@@ -12,6 +21,11 @@
 
         <ul id="nav-mobile" class="left hide-on-med-and-down">
             <li><a href="register.php">Sign up</a></li>
+        </ul>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li>
+                <p><?php echo 'Logged in as: ' . $username ?></p>
+            </li>
         </ul>
     </div>
 </nav>
