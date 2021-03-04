@@ -1,8 +1,14 @@
 <?php
 session_start();
-$username = $_SESSION['user_name'];
+$username = $_SESSION['user']['username'];
+$login_status = '';
 
+    if (!$_SESSION['user']) {
+        $login_status = 'Not logged in';
 
+    } else {
+        $login_status = 'Logged in as: ' . $username;
+    }
 
 ?>
 
@@ -24,8 +30,9 @@ $username = $_SESSION['user_name'];
         </ul>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
             <li>
-                <p><?php echo 'Logged in as: ' . $username ?></p>
+                <a href="profile.php"><?php echo $login_status; ?></a>
             </li>
+            
         </ul>
     </div>
 </nav>

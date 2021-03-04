@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include 'db_connect.php';
 
 $error = [
@@ -30,26 +30,18 @@ if (isset($req['submit'])) {
     } else {
         $error['incorrect_login'] = 'Incorrect login or password';
     }
+    $_SESSION['user'] = [
+            "id" => $user_info['id'],
+            "email" => $user_info['user_email'],
+            "username" => $user_info['user_name']
+    ];
+
+
+
+    header('Location: index.php');
 }
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!doctype html>
 <html lang="en">
