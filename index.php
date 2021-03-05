@@ -1,7 +1,9 @@
 <?php
+session_start();
+$id = $_SESSION['user']['id'];
 include 'db_connect.php';
 
-$sql = "SELECT id, artist, album, year, rating  FROM userartists";
+$sql = "SELECT id, artist, album, year, rating  FROM userartists WHERE user_id = '$id'";
 $stmt = $connect->prepare($sql);
 $stmt -> execute();
 $artists = $stmt->fetchAll(PDO::FETCH_ASSOC);

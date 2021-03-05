@@ -1,4 +1,5 @@
-v<?php
+<?php
+session_start();
 include 'db_connect.php';
 
 $error = [
@@ -37,7 +38,7 @@ if (isset($req['submit'])) {
 
     if (isValidated($error)) {
         // insert data to db
-        $sql = "INSERT INTO userartists(artist, album, `year`, rating, review) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO userartists(artist, album, `year`, rating, review, user_id) VALUES (?, ?, ?, ?, ?, ?)";
         $st = $connect->prepare($sql);
         $st->execute([
             $req['artist'],
@@ -45,6 +46,7 @@ if (isset($req['submit'])) {
             $req['year'],
             $req['rating'],
             $req['review'],
+            $_SESSION['user']['id'],
         ]);
     }
 }
