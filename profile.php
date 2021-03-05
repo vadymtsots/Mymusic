@@ -29,8 +29,9 @@ include 'templates/head.php'
 <h4 class="center">My Profile</h4>
 
 <div class="center">
-    <h5><?php echo $email ?></h5>
-    <h5><?php echo $username ?></h5>
+    <h5><?php echo 'Email: ' . $email ?></h5>
+    <h5><?php echo 'Username: ' . $username ?></h5>
+    <button><a href="edit_profile.php">Edit</a></button>
 </div>
 
 <form action="" method="post">
